@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emelyne Niwemutoni</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --sage: #8FAF8F;
+    --sage-light: #C8DCC8;
+    --sage-pale: #EFF5EF;
+    --stone: #B8AFA0;
+    --stone-light: #E8E4DF;
+    --stone-pale: #F7F5F2;
+    --ink: #2C2A26;
+    --ink-soft: #5C5952;
+    --ink-muted: #9C9890;
+    --cream: #FDFBF8;
+    --white: #FFFFFF;
+    --accent: #7A9E7A;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Language Bar */
+  .lang-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(253,251,248,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 0.5px solid var(--stone-light);
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 52px;
+  }
+
+  .lang-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    color: var(--ink);
+  }
+
+  .lang-pills {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .lang-btn {
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 0.5px solid var(--stone);
+    background: transparent;
+    color: var(--ink-soft);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 0.04em;
+  }
+
+  .lang-btn:hover { background: var(--sage-pale); border-color: var(--sage); color: var(--ink); }
+  .lang-btn.active { background: var(--sage); border-color: var(--sage); color: white; }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 52px;
+  }
+
+  .hero-left {
+    background: var(--stone-pale);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5rem 4rem 5rem 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: var(--sage-pale);
+    opacity: 0.6;
+  }
+
+  .hero-left::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -60px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: var(--sage-light);
+    opacity: 0.25;
+  }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+    font-weight: 500;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 5vw, 4.5rem);
+    font-weight: 300;
+    line-height: 1.05;
+    color: var(--ink);
+    margin-bottom: 1rem;
+  }
+
+  .hero-name em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-title {
+    font-size: 14px;
+    color: var(--ink-soft);
+    font-weight: 300;
+    letter-spacing: 0.06em;
+    margin-bottom: 2.5rem;
+    line-height: 1.7;
+    max-width: 360px;
+  }
+
+  .hero-contacts {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 2.5rem;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+
+  .contact-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--sage);
+    flex-shrink: 0;
+  }
+
+  .contact-item a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .hero-cta {
+    display: inline-block;
+    padding: 12px 28px;
+    background: var(--ink);
+    color: white;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    font-weight: 400;
+    border-radius: 3px;
+    text-decoration: none;
+    width: fit-content;
+    transition: background 0.2s ease;
+  }
+
+  .hero-cta:hover { background: var(--accent); }
+
+  /* Photo side */
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+    background: var(--sage-pale);
+  }
+
+  .photo-frame {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .photo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  }
+
+  .photo-overlay {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 30%;
+    background: linear-gradient(to top, rgba(239,245,239,0.5), transparent);
+  }
+
+  .photo-badge {
+    position: absolute;
+    bottom: 2rem; right: 2rem;
+    background: rgba(253,251,248,0.92);
+    border: 0.5px solid var(--stone-light);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 11px;
+    color: var(--ink-soft);
+    backdrop-filter: blur(4px);
+  }
+
+  .photo-badge strong {
+    display: block;
+    color: var(--ink);
+    font-size: 13px;
+    margin-bottom: 2px;
+  }
+
+  /* Sections */
+  .section {
+    padding: 5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+
+  .section-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    color: var(--sage);
+    font-weight: 400;
+    letter-spacing: 0.1em;
+  }
+
+  .section-line {
+    flex: 1;
+    max-width: 40px;
+    height: 0.5px;
+    background: var(--stone-light);
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-weight: 300;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+  }
+
+  /* About */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .about-text {
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--ink-soft);
+    font-weight: 300;
+  }
+
+  .about-text strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .stat-card {
+    background: var(--stone-pale);
+    border: 0.5px solid var(--stone-light);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .stat-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--ink-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  /* Skills */
+  .skills-bg { background: var(--stone-pale); }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .skill-card {
+    background: white;
+    border: 0.5px solid var(--stone-light);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: border-color 0.2s ease;
+  }
+
+  .skill-card:hover { border-color: var(--sage); }
+
+  .skill-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: var(--sage-pale);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 0.8rem;
+    font-size: 16px;
+  }
+
+  .skill-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 0.3rem;
+  }
+
+  .skill-desc {
+    font-size: 11px;
+    color: var(--ink-muted);
+    line-height: 1.5;
+  }
+
+  .skill-bar-wrap {
+    margin-top: 0.7rem;
+    height: 3px;
+    background: var(--stone-light);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .skill-bar {
+    height: 100%;
+    background: var(--sage);
+    border-radius: 2px;
+    transition: width 1.2s ease;
+  }
+
+  /* Education & Experience */
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 8px; bottom: 8px;
+    width: 0.5px;
+    background: var(--stone-light);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 2.5rem;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -2.25rem; top: 8px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--sage);
+    border: 2px solid white;
+    box-shadow: 0 0 0 1px var(--sage);
+  }
+
+  .tl-date {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--sage);
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+
+  .tl-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.2;
+    margin-bottom: 0.2rem;
+  }
+
+  .tl-org {
+    font-size: 12px;
+    color: var(--ink-muted);
+    margin-bottom: 0.6rem;
+  }
+
+  .tl-desc {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* Languages */
+  .lang-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.2rem;
+  }
+
+  .lang-card {
+    background: white;
+    border: 0.5px solid var(--stone-light);
+    border-radius: 12px;
+    padding: 1.25rem;
+    text-align: center;
+  }
+
+  .lang-flag {
+    font-size: 24px;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .lang-name-text {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 0.2rem;
+  }
+
+  .lang-level {
+    font-size: 10px;
+    color: var(--ink-muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* References */
+  .ref-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .ref-card {
+    background: var(--stone-pale);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 0.5px solid var(--stone-light);
+  }
+
+  .ref-avatar {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--sage);
+    display: flex; align-items: center; justify-content: center;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 0.8rem;
+  }
+
+  .ref-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 0.2rem;
+  }
+
+  .ref-role {
+    font-size: 11px;
+    color: var(--ink-muted);
+    line-height: 1.4;
+    margin-bottom: 0.6rem;
+  }
+
+  .ref-phone {
+    font-size: 12px;
+    color: var(--accent);
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: var(--ink);
+    color: rgba(255,255,255,0.5);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+  }
+
+  .footer span { color: var(--sage-light); }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-right { height: 55vw; min-height: 320px; }
+    .hero-left { padding: 3rem 2rem; }
+    .section { padding: 3rem 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; }
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+    .lang-grid { grid-template-columns: repeat(2, 1fr); }
+    .ref-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    .skills-grid { grid-template-columns: 1fr; }
+    .lang-grid { grid-template-columns: repeat(2, 1fr); }
+    .lang-pills { gap: 4px; }
+    .lang-btn { padding: 4px 8px; font-size: 10px; }
+  }
+
+  /* Translation hidden sections */
+  .t-content { display: none; }
+  .t-content.active { display: block; }
+</style>
+</head>
+<body>
+
+<!-- Language Bar -->
+<nav class="lang-bar">
+  <div class="lang-logo">Emelyne N.</div>
+  <div class="lang-pills">
+    <button class="lang-btn active" onclick="setLang('en')">English</button>
+    <button class="lang-btn" onclick="setLang('rw')">Kinyarwanda</button>
+    <button class="lang-btn" onclick="setLang('fr')">Français</button>
+    <button class="lang-btn" onclick="setLang('es')">Español</button>
+    <button class="lang-btn" onclick="setLang('sw')">Kiswahili</button>
+    <button class="lang-btn" onclick="setLang('pt')">Português</button>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow" data-key="eyebrow">Computer Engineering Student</div>
+    <h1 class="hero-name">Niwemutoni<br><em>Emelyne</em></h1>
+    <p class="hero-title" data-key="heroDesc">Passionate about software development and emerging technologies. Seeking opportunities to contribute to innovative projects.</p>
+    <div class="hero-contacts">
+      <div class="contact-item"><div class="contact-dot"></div> Kigali, Nyarugenge, Rwanda</div>
+      <div class="contact-item"><div class="contact-dot"></div> 0790232733</div>
+      <div class="contact-item"><div class="contact-dot"></div> <a href="mailto:emelyneniwemutoni@gmail.com">emelyneniwemutoni@gmail.com</a></div>
+      <div class="contact-item"><div class="contact-dot"></div> <a href="https://www.linkedin.com/in/niwemutoni-emelyne-542670380/" target="_blank">LinkedIn</a></div>
+    </div>
+    <a href="mailto:emelyneniwemutoni@gmail.com" class="hero-cta" data-key="ctaText">Get in Touch →</a>
+  </div>
+  <div class="hero-right">
+    <div class="photo-frame">
+      <img src="/mnt/user-data/uploads/WhatsApp_Image_2026-03-12_at_4_28_03_PM.jpeg" alt="Emelyne Niwemutoni" class="photo-img" onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;width:100%;background:var(--sage-pale)\'><div style=\'width:180px;height:180px;border-radius:50%;background:var(--sage);display:flex;align-items:center;justify-content:center;font-family:Cormorant Garamond,serif;font-size:4rem;color:white;font-weight:300\'>EN</div></div>'">
+      <div class="photo-overlay"></div>
+      <div class="photo-badge">
+        <strong>University of Rwanda</strong>
+        <span data-key="badgeDegree">Computer Engineering</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About -->
+<section class="section">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <div class="section-line"></div>
+    <h2 class="section-title" data-key="aboutTitle">About Me</h2>
+  </div>
+  <div class="about-grid">
+    <p class="about-text" data-key="aboutText">
+      I am a <strong>motivated and detail-oriented Computer Engineering student</strong> at the University of Rwanda, with strong foundations in problem-solving and mathematics. My passion lies in software development and the ever-evolving world of emerging technologies. I thrive in collaborative environments and bring both <strong>logical thinking</strong> and <strong>leadership</strong> to every project I engage with.
+    </p>
+    <div>
+      <p class="about-text" data-key="aboutText2">
+        Having participated in the <strong>GetInto Tech Summer Camp</strong>, I gained hands-on experience in real tech projects and workshops, strengthening my practical skills alongside my academic foundation.
+      </p>
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-number">2+</div>
+          <div class="stat-label" data-key="statLangs">Languages</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">5+</div>
+          <div class="stat-label" data-key="statSkills">Tech Skills</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Skills -->
+<section class="section skills-bg" style="max-width:100%; padding-left:5rem; padding-right:5rem;">
+  <div style="max-width:1100px; margin:0 auto;">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <div class="section-line"></div>
+      <h2 class="section-title" data-key="skillsTitle">Technical Skills</h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-icon">🐍</div>
+        <div class="skill-name">Python</div>
+        <div class="skill-desc" data-key="skillPy">Programming & scripting fundamentals</div>
+        <div class="skill-bar-wrap"><div class="skill-bar" style="width:55%"></div></div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">⚙️</div>
+        <div class="skill-name">C++</div>
+        <div class="skill-desc" data-key="skillCpp">Systems programming & logic</div>
+        <div class="skill-bar-wrap"><div class="skill-bar" style="width:50%"></div></div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🌐</div>
+        <div class="skill-name">HTML & CSS</div>
+        <div class="skill-desc" data-key="skillWeb">Web structure & styling</div>
+        <div class="skill-bar-wrap"><div class="skill-bar" style="width:60%"></div></div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">✨</div>
+        <div class="skill-name">JavaScript</div>
+        <div class="skill-desc" data-key="skillJs">Interactive web development</div>
+        <div class="skill-bar-wrap"><div class="skill-bar" style="width:45%"></div></div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">💡</div>
+        <div class="skill-name" data-key="skillPsName">Problem Solving</div>
+        <div class="skill-desc" data-key="skillPs">Analytical thinking & logic</div>
+        <div class="skill-bar-wrap"><div class="skill-bar" style="width:80%"></div></div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🤝</div>
+        <div class="skill-name" data-key="skillTwName">Teamwork & Leadership</div>
+        <div class="skill-desc" data-key="skillTw">Collaboration & project coordination</div>
+        <div class="skill-bar-wrap"><div class="skill-bar" style="width:85%"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Education -->
+<section class="section">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <div class="section-line"></div>
+    <h2 class="section-title" data-key="eduTitle">Education</h2>
+  </div>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="tl-date" data-key="eduCurrentDate">2023 — Present</div>
+      <div class="tl-title" data-key="eduDeg">Bachelor's in Computer Engineering</div>
+      <div class="tl-org">University of Rwanda, Kigali</div>
+      <div class="tl-desc" data-key="eduDegDesc">Studying core computer engineering disciplines including programming, algorithms, systems design, and emerging technologies. Participating in tech events and workshops to build practical skills.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-date" data-key="eduSecDate">Completed</div>
+      <div class="tl-title" data-key="eduSec">Secondary Education</div>
+      <div class="tl-org">Lycée Notre Dame de Cîteaux</div>
+      <div class="tl-desc" data-key="eduSecDesc">Specialized in Physics, Chemistry, and Mathematics — building a rigorous analytical foundation for engineering studies.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-date" data-key="eduCampDate">Achievement</div>
+      <div class="tl-title" data-key="eduCamp">GetInto Tech Summer Camp</div>
+      <div class="tl-org" data-key="eduCampOrg">Tech Bootcamp, Rwanda</div>
+      <div class="tl-desc" data-key="eduCampDesc">Gained hands-on experience through intensive workshops, collaborative tech projects, and real-world problem solving in a dynamic technology environment.</div>
+    </div>
+  </div>
+</section>
+
+<!-- Languages Spoken -->
+<section class="section skills-bg" style="max-width:100%; padding-left:5rem; padding-right:5rem;">
+  <div style="max-width:1100px; margin:0 auto;">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <div class="section-line"></div>
+      <h2 class="section-title" data-key="langSpokenTitle">Languages Spoken</h2>
+    </div>
+    <div class="lang-grid">
+      <div class="lang-card">
+        <span class="lang-flag">🇷🇼</span>
+        <div class="lang-name-text">Kinyarwanda</div>
+        <div class="lang-level" data-key="native">Native</div>
+      </div>
+      <div class="lang-card">
+        <span class="lang-flag">🇬🇧</span>
+        <div class="lang-name-text">English</div>
+        <div class="lang-level" data-key="vgood">Very Good</div>
+      </div>
+      <div class="lang-card">
+        <span class="lang-flag">🇫🇷</span>
+        <div class="lang-name-text">Français</div>
+        <div class="lang-level" data-key="good">Good</div>
+      </div>
+      <div class="lang-card">
+        <span class="lang-flag">🇹🇿</span>
+        <div class="lang-name-text">Kiswahili</div>
+        <div class="lang-level" data-key="basic">Basic</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- References -->
+<section class="section">
+  <div class="section-header">
+    <span class="section-num">05</span>
+    <div class="section-line"></div>
+    <h2 class="section-title" data-key="refTitle">References</h2>
+  </div>
+  <div class="ref-grid">
+    <div class="ref-card">
+      <div class="ref-avatar">MA</div>
+      <div class="ref-name">MASENGESHO Antoinette</div>
+      <div class="ref-role" data-key="refRole1">Head Teacher, Lycée Notre Dame de Cîteaux</div>
+      <div class="ref-phone">📞 0788611199</div>
+    </div>
+    <div class="ref-card">
+      <div class="ref-avatar">GJ</div>
+      <div class="ref-name">MR. GASUHUKE Janvier</div>
+      <div class="ref-role" data-key="refRole2">IT Essentials Lecturer, University of Rwanda</div>
+      <div class="ref-phone">📞 0788594361</div>
+    </div>
+    <div class="ref-card">
+      <div class="ref-avatar">NA</div>
+      <div class="ref-name">NIYOMUNGERI Aline</div>
+      <div class="ref-role" data-key="refRole3">CEO & Founder, WithinTech</div>
+      <div class="ref-phone">📞 0783645551</div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <span>Emelyne Niwemutoni</span> — Kigali, Rwanda · emelyneniwemutoni@gmail.com
+</footer>
+
+<script>
+const translations = {
+  en: {
+    eyebrow: "Computer Engineering Student",
+    heroDesc: "Passionate about software development and emerging technologies. Seeking opportunities to contribute to innovative projects.",
+    ctaText: "Get in Touch →",
+    badgeDegree: "Computer Engineering",
+    aboutTitle: "About Me",
+    aboutText: 'I am a <strong>motivated and detail-oriented Computer Engineering student</strong> at the University of Rwanda, with strong foundations in problem-solving and mathematics. My passion lies in software development and the ever-evolving world of emerging technologies. I thrive in collaborative environments and bring both <strong>logical thinking</strong> and <strong>leadership</strong> to every project I engage with.',
+    aboutText2: 'Having participated in the <strong>GetInto Tech Summer Camp</strong>, I gained hands-on experience in real tech projects and workshops, strengthening my practical skills alongside my academic foundation.',
+    statLangs: "Languages", statSkills: "Tech Skills",
+    skillsTitle: "Technical Skills",
+    skillPy: "Programming & scripting fundamentals", skillCpp: "Systems programming & logic",
+    skillWeb: "Web structure & styling", skillJs: "Interactive web development",
+    skillPsName: "Problem Solving", skillPs: "Analytical thinking & logic",
+    skillTwName: "Teamwork & Leadership", skillTw: "Collaboration & project coordination",
+    eduTitle: "Education",
+    eduCurrentDate: "2023 — Present", eduDeg: "Bachelor's in Computer Engineering",
+    eduDegDesc: "Studying core computer engineering disciplines including programming, algorithms, systems design, and emerging technologies. Participating in tech events and workshops.",
+    eduSecDate: "Completed", eduSec: "Secondary Education",
+    eduSecDesc: "Specialized in Physics, Chemistry, and Mathematics — building a rigorous analytical foundation for engineering studies.",
+    eduCampDate: "Achievement", eduCamp: "GetInto Tech Summer Camp", eduCampOrg: "Tech Bootcamp, Rwanda",
+    eduCampDesc: "Gained hands-on experience through intensive workshops, collaborative tech projects, and real-world problem solving.",
+    langSpokenTitle: "Languages Spoken",
+    native: "Native", vgood: "Very Good", good: "Good", basic: "Basic",
+    refTitle: "References",
+    refRole1: "Head Teacher, Lycée Notre Dame de Cîteaux",
+    refRole2: "IT Essentials Lecturer, University of Rwanda",
+    refRole3: "CEO & Founder, WithinTech"
+  },
+  rw: {
+    eyebrow: "Umunyeshuri w'Injiniyeri ya Mudasobwa",
+    heroDesc: "Nkunda gukora software no guteza imbere ikoranabuhanga. Nshaka amahirwe yo gutera inkunga imishinga mishya.",
+    ctaText: "Watumanahane →",
+    badgeDegree: "Injiniyeri ya Mudasobwa",
+    aboutTitle: "Ibyerekeye Jewe",
+    aboutText: 'Ndi <strong>umunyeshuri w\'Injiniyeri ya Mudasobwa</strong> muri Kaminuza y\'u Rwanda, kandi mfite ubushobozi bwiza bwo gukemura ibibazo no gutekereza. Nkunda gukora software no kumenya ikoranabuhanga rishya. Mfite ubushobozi bwo gukora na mugenzi <strong>no gutekereza neza</strong> no kuyobora.',
+    aboutText2: 'Mafunzo ya <strong>GetInto Tech Summer Camp</strong> yangiriye akamaro kenshi mu bikorwa nyabyo by\'ikoranabuhanga.',
+    statLangs: "Indimi", statSkills: "Ubuhanga bwa Tekinoroji",
+    skillsTitle: "Ubuhanga bwa Tekinoroji",
+    skillPy: "Inyigisho za gahunda", skillCpp: "Gahunda za sisitemu",
+    skillWeb: "Imiterere n\'isura ya interineti", skillJs: "Guteza imbere interineti",
+    skillPsName: "Gukemura Ibibazo", skillPs: "Gutekereza no gusesengura",
+    skillTwName: "Gukorana & Ubuyobozi", skillTw: "Gukorana n\'abandi no guyobora",
+    eduTitle: "Amashuri",
+    eduCurrentDate: "2023 — Ubu", eduDeg: "Impamyabumenyi ya Injiniyeri ya Mudasobwa",
+    eduDegDesc: "Kwiga ibya injiniyeri ya mudasobwa harimo gahunda, alogoriti, no gutekereza neza kuri ikoranabuhanga rishya.",
+    eduSecDate: "Yararangiye", eduSec: "Amashuri ya Kabiri",
+    eduSecDesc: "Natsinze ibya Fiziki, Kimiya, no Matematiki — gushinga inzira y'ubwenge mu kiga.",
+    eduCampDate: "Ibyakozwe", eduCamp: "GetInto Tech Summer Camp", eduCampOrg: "Amahugurwa ya Tekinoroji, u Rwanda",
+    eduCampDesc: "Nagize uburambe mu bikorwa nyabyo, workshops, no gukemura ibibazo nyabyo.",
+    langSpokenTitle: "Indimi Zivugwa",
+    native: "Ururimi rw'Ibanze", vgood: "Neza Cyane", good: "Neza", basic: "Bike",
+    refTitle: "Inzitizi",
+    refRole1: "Umuyobozi w'Ishuri, Lycée Notre Dame de Cîteaux",
+    refRole2: "Mwarimu wa IT, Kaminuza y'u Rwanda",
+    refRole3: "Umunyamabanga & Umushinga, WithinTech"
+  },
+  fr: {
+    eyebrow: "Étudiante en Génie Informatique",
+    heroDesc: "Passionnée par le développement logiciel et les technologies émergentes. À la recherche d'opportunités pour contribuer à des projets innovants.",
+    ctaText: "Me Contacter →",
+    badgeDegree: "Génie Informatique",
+    aboutTitle: "À Propos",
+    aboutText: 'Je suis une <strong>étudiante en Génie Informatique motivée et minutieuse</strong> à l\'Université du Rwanda, avec de solides bases en résolution de problèmes et en mathématiques. Ma passion réside dans le développement logiciel et le monde en constante évolution des technologies émergentes, avec un sens fort du <strong>leadership</strong>.',
+    aboutText2: 'Ma participation au <strong>GetInto Tech Summer Camp</strong> m\'a permis d\'acquérir une expérience pratique précieuse à travers des projets technologiques réels.',
+    statLangs: "Langues", statSkills: "Compétences Tech",
+    skillsTitle: "Compétences Techniques",
+    skillPy: "Fondamentaux de programmation", skillCpp: "Programmation systèmes",
+    skillWeb: "Structure et style web", skillJs: "Développement web interactif",
+    skillPsName: "Résolution de Problèmes", skillPs: "Pensée analytique et logique",
+    skillTwName: "Travail d'équipe & Leadership", skillTw: "Collaboration et coordination",
+    eduTitle: "Formation",
+    eduCurrentDate: "2023 — Présent", eduDeg: "Licence en Génie Informatique",
+    eduDegDesc: "Étude des disciplines fondamentales du génie informatique incluant la programmation, les algorithmes, la conception de systèmes et les technologies émergentes.",
+    eduSecDate: "Obtenu", eduSec: "Enseignement Secondaire",
+    eduSecDesc: "Spécialisation en Physique, Chimie et Mathématiques — construction d'une base analytique rigoureuse.",
+    eduCampDate: "Réalisation", eduCamp: "GetInto Tech Summer Camp", eduCampOrg: "Bootcamp Tech, Rwanda",
+    eduCampDesc: "Expérience pratique à travers des ateliers intensifs, des projets collaboratifs et la résolution de problèmes réels.",
+    langSpokenTitle: "Langues Parlées",
+    native: "Langue Maternelle", vgood: "Très Bien", good: "Bien", basic: "Notions",
+    refTitle: "Références",
+    refRole1: "Directrice, Lycée Notre Dame de Cîteaux",
+    refRole2: "Chargé de cours IT, Université du Rwanda",
+    refRole3: "PDG & Fondatrice, WithinTech"
+  },
+  es: {
+    eyebrow: "Estudiante de Ingeniería Informática",
+    heroDesc: "Apasionada por el desarrollo de software y las tecnologías emergentes. Buscando oportunidades para contribuir a proyectos innovadores.",
+    ctaText: "Contáctame →",
+    badgeDegree: "Ingeniería Informática",
+    aboutTitle: "Sobre Mí",
+    aboutText: 'Soy una <strong>estudiante de Ingeniería Informática motivada y detallista</strong> en la Universidad de Rwanda, con sólidas bases en resolución de problemas y matemáticas. Mi pasión está en el desarrollo de software y el mundo en constante evolución de las tecnologías emergentes. Aporto <strong>pensamiento lógico</strong> y <strong>liderazgo</strong> a cada proyecto.',
+    aboutText2: 'Mi participación en el <strong>GetInto Tech Summer Camp</strong> me proporcionó experiencia práctica valiosa a través de proyectos tecnológicos reales y talleres intensivos.',
+    statLangs: "Idiomas", statSkills: "Habilidades Tech",
+    skillsTitle: "Habilidades Técnicas",
+    skillPy: "Fundamentos de programación", skillCpp: "Programación de sistemas",
+    skillWeb: "Estructura y estilo web", skillJs: "Desarrollo web interactivo",
+    skillPsName: "Resolución de Problemas", skillPs: "Pensamiento analítico y lógico",
+    skillTwName: "Trabajo en Equipo & Liderazgo", skillTw: "Colaboración y coordinación de proyectos",
+    eduTitle: "Educación",
+    eduCurrentDate: "2023 — Presente", eduDeg: "Licenciatura en Ingeniería Informática",
+    eduDegDesc: "Estudio de las disciplinas fundamentales de ingeniería informática incluyendo programación, algoritmos, diseño de sistemas y tecnologías emergentes.",
+    eduSecDate: "Completado", eduSec: "Educación Secundaria",
+    eduSecDesc: "Especialización en Física, Química y Matemáticas — construyendo una base analítica rigurosa para los estudios de ingeniería.",
+    eduCampDate: "Logro", eduCamp: "GetInto Tech Summer Camp", eduCampOrg: "Bootcamp Tecnológico, Rwanda",
+    eduCampDesc: "Experiencia práctica a través de talleres intensivos, proyectos tecnológicos colaborativos y resolución de problemas reales.",
+    langSpokenTitle: "Idiomas Hablados",
+    native: "Nativo", vgood: "Muy Bueno", good: "Bueno", basic: "Básico",
+    refTitle: "Referencias",
+    refRole1: "Directora, Lycée Notre Dame de Cîteaux",
+    refRole2: "Docente de IT, Universidad de Rwanda",
+    refRole3: "CEO y Fundadora, WithinTech"
+  },
+  sw: {
+    eyebrow: "Mwanafunzi wa Uhandisi wa Kompyuta",
+    heroDesc: "Nina shauku ya ukuzaji wa programu na teknolojia mpya. Ninatafuta fursa za kuchangia miradi ya ubunifu.",
+    ctaText: "Wasiliana Nami →",
+    badgeDegree: "Uhandisi wa Kompyuta",
+    aboutTitle: "Kuhusu Mimi",
+    aboutText: 'Mimi ni <strong>mwanafunzi wa Uhandisi wa Kompyuta mwenye motisha</strong> katika Chuo Kikuu cha Rwanda, nina msingi imara wa kutatua matatizo na hisabati. Shauku yangu iko katika ukuzaji wa programu na ulimwengu unaobadilika wa teknolojia mpya. Ninaleta <strong>mawazo ya kimantiki</strong> na <strong>uongozi</strong> katika kila mradi.',
+    aboutText2: 'Kushiriki kwangu katika <strong>GetInto Tech Summer Camp</strong> kulinipatia uzoefu wa vitendo kupitia miradi halisi ya teknolojia.',
+    statLangs: "Lugha", statSkills: "Ujuzi wa Teknolojia",
+    skillsTitle: "Ujuzi wa Kiufundi",
+    skillPy: "Misingi ya programu", skillCpp: "Programu za mifumo",
+    skillWeb: "Muundo na mtindo wa wavuti", skillJs: "Ukuzaji wa wavuti shirikishi",
+    skillPsName: "Kutatua Matatizo", skillPs: "Mawazo ya uchanganuzi na kimantiki",
+    skillTwName: "Kufanya Kazi Pamoja & Uongozi", skillTw: "Ushirikiano na uratibu wa miradi",
+    eduTitle: "Elimu",
+    eduCurrentDate: "2023 — Sasa", eduDeg: "Shahada ya Uhandisi wa Kompyuta",
+    eduDegDesc: "Kusoma taaluma za msingi za uhandisi wa kompyuta ikiwemo uprogramu, algoriti, muundo wa mifumo na teknolojia mpya.",
+    eduSecDate: "Ilihitimu", eduSec: "Elimu ya Sekondari",
+    eduSecDesc: "Utaalamu katika Fizikia, Kemia na Hisabati — kujenga msingi thabiti wa uchanganuzi.",
+    eduCampDate: "Mafanikio", eduCamp: "GetInto Tech Summer Camp", eduCampOrg: "Bootcamp ya Teknolojia, Rwanda",
+    eduCampDesc: "Uzoefu wa vitendo kupitia warsha za kina, miradi ya ushirikiano wa teknolojia na utatuzi wa matatizo halisi.",
+    langSpokenTitle: "Lugha Zinazozungumzwa",
+    native: "Lugha ya Mama", vgood: "Nzuri Sana", good: "Nzuri", basic: "Kidogo",
+    refTitle: "Marejeo",
+    refRole1: "Mkuu wa Shule, Lycée Notre Dame de Cîteaux",
+    refRole2: "Mhadhiri wa IT, Chuo Kikuu cha Rwanda",
+    refRole3: "Mkurugenzi & Mwanzilishi, WithinTech"
+  },
+  pt: {
+    eyebrow: "Estudante de Engenharia Informática",
+    heroDesc: "Apaixonada pelo desenvolvimento de software e tecnologias emergentes. À procura de oportunidades para contribuir em projetos inovadores.",
+    ctaText: "Entre em Contato →",
+    badgeDegree: "Engenharia Informática",
+    aboutTitle: "Sobre Mim",
+    aboutText: 'Sou uma <strong>estudante de Engenharia Informática motivada e detalhista</strong> na Universidade do Ruanda, com sólidas bases em resolução de problemas e matemática. Minha paixão está no desenvolvimento de software e no mundo em constante evolução das tecnologias emergentes. Trago <strong>pensamento lógico</strong> e <strong>liderança</strong> a cada projeto.',
+    aboutText2: 'Minha participação no <strong>GetInto Tech Summer Camp</strong> proporcionou experiência prática valiosa através de projetos tecnológicos reais e workshops intensivos.',
+    statLangs: "Idiomas", statSkills: "Competências Tech",
+    skillsTitle: "Competências Técnicas",
+    skillPy: "Fundamentos de programação", skillCpp: "Programação de sistemas",
+    skillWeb: "Estrutura e estilo web", skillJs: "Desenvolvimento web interativo",
+    skillPsName: "Resolução de Problemas", skillPs: "Pensamento analítico e lógico",
+    skillTwName: "Trabalho em Equipa & Liderança", skillTw: "Colaboração e coordenação de projetos",
+    eduTitle: "Educação",
+    eduCurrentDate: "2023 — Presente", eduDeg: "Licenciatura em Engenharia Informática",
+    eduDegDesc: "Estudo das disciplinas fundamentais de engenharia informática incluindo programação, algoritmos, design de sistemas e tecnologias emergentes.",
+    eduSecDate: "Concluído", eduSec: "Ensino Secundário",
+    eduSecDesc: "Especialização em Física, Química e Matemática — construindo uma base analítica rigorosa para os estudos de engenharia.",
+    eduCampDate: "Conquista", eduCamp: "GetInto Tech Summer Camp", eduCampOrg: "Bootcamp Tecnológico, Ruanda",
+    eduCampDesc: "Experiência prática através de workshops intensivos, projetos colaborativos de tecnologia e resolução de problemas reais.",
+    langSpokenTitle: "Idiomas Falados",
+    native: "Nativo", vgood: "Muito Bom", good: "Bom", basic: "Básico",
+    refTitle: "Referências",
+    refRole1: "Diretora, Lycée Notre Dame de Cîteaux",
+    refRole2: "Professor de IT, Universidade do Ruanda",
+    refRole3: "CEO e Fundadora, WithinTech"
+  }
+};
+
+function setLang(lang) {
+  const t = translations[lang];
+  if (!t) return;
+  document.querySelectorAll('[data-key]').forEach(el => {
+    const key = el.dataset.key;
+    if (t[key] !== undefined) {
+      el.innerHTML = t[key];
+    }
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
